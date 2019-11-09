@@ -21,8 +21,15 @@ $("#submit").on("click", function(e) {
   var trainDestiny = $("#train-desination")
     .val()
     .trim();
-  var firstTrain = $("#first-train-time").val();
-  var trainFrequency = $("#train-fequency").val();
+  var firstTrain = moment(
+    $("#first-train-time")
+      .val()
+      .trim(),
+    "HH:mm"
+  ).format("HH:mm");
+  var trainFrequency = $("#train-fequency")
+    .val()
+    .trim();
 
   var trainObject = {
     name: trainName,
@@ -33,28 +40,6 @@ $("#submit").on("click", function(e) {
 
   db.ref().push(trainObject);
 
-  var tName = trainObject.name;
-  var tDestiny = trainObject.destiny;
-  var tFirst = trainObject.first;
-  var tFrequency = trainObject.frequency;
-
-  console.log(tName);
-  console.log(tDestiny);
-  console.log(tFirst);
-  console.log(tFrequency);
-
-  $("#trainTable").append(
-    "<tr><td>" +
-      tName +
-      "</td><td>" +
-      tDestiny +
-      "</td><td>" +
-      tFirst +
-      "</td><td>" +
-      tFrequency +
-      "</td></tr>"
-  );
-
   $("#train-name").val("");
   $("#train-desination").val("");
   $("#first-train-time").val("");
@@ -63,20 +48,35 @@ $("#submit").on("click", function(e) {
 
 db.ref().on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
+
+  var tName = childSnapshot.val().name;
+  var tDestiny = childSnapshot.val().destiny;
+  var tFirst = childSnapshot.val().first;
+  var tFrequency = childSnapshot.val().frequency;
+
+  var firstTrainTime = moment(tFirst, "HH:mm");
+
+  var difference = moment().diff(moment(firstTrainTime), "minutes");
+
+  var tDifference = difference % tFrequency;
+
+  var minutesUntil = tFrequency - tDifference;
+
+  var nextTrain = moment()
+    .add(minutesUntil, "minutes")
+    .format("HH:mm");
+
+  $("#trainTable").append(
+    "<tr><td>" +
+      tName +
+      "</td><td>" +
+      tDestiny +
+      "</td><td>" +
+      tFrequency +
+      "</td><td>" +
+      nextTrain +
+      "</td><td>" +
+      minutesUntil +
+      "</td></tr>"
+  );
 });
-
-//create variables for each one again.
-//append them to table.
-
-//make initial train data in database.
-//create a button to add new trains.
-//Also updates html and database.
-//create a way to retrieve trains from the database.
-//create a way to tell the time with moment JS. Parse.
-
-// When adding trains, administrators should be able to submit the following:
-// So, if administratior, the submit form appears.
-
-// Code this app to calculate when the next train will arrive; this should be relative to the current time.
-
-// Users from many different machines must be able to view same train times.
