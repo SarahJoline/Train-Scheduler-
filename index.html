@@ -16,17 +16,6 @@
   <body>
     <h1>Choo Choo Choose Your Train</h1>
 
-    <h2>Current Train Schedule</h2>
-    <table id="trainTable">
-      <tr>
-        <th>Train Name</th>
-        <th>Destination</th>
-        <th>Frequency (min)</th>
-        <th>Next Arrival</th>
-        <th>Minutes Away</th>
-      </tr>
-    </table>
-
     <h2>Add A Train</h2>
     <form>
       Train name
@@ -39,6 +28,18 @@
       <input id="train-fequency" type="text" name="frequency" /><br />
       <input id="submit" type="submit" />
     </form>
+
+    <h2>Current Train Schedule</h2>
+    <table id="trainTable">
+      <tr>
+        <th>Train Name</th>
+        <th>Destination</th>
+        <th>Frequency (min)</th>
+        <th>Next Arrival</th>
+        <th>Minutes Away</th>
+      </tr>
+    </table>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.2/firebase-database.js"></script>
